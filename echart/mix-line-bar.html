@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 600px;width:100%"></div>
+       <script src="./echarts.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+ var a = {"code":0,"message":"","waitingId":"rcaProbContent","map":{"list":
+        [
+            {"rcaType":"下行高丢包","aaaClass":"52.37%","aaClass":"24.7%","aClass":"7.94%","totalClass":"85.01%","total":"7230"},
+            {"rcaType":"接通率低","aaaClass":"51.7%","aaClass":"22.39%","aClass":"11.08%","totalClass":"85.18%","total":"6342"},
+            {"rcaType":"下行编码效率低","aaaClass":"74.04%","aaClass":"14.98%","aClass":"4.2%","totalClass":"93.23%","total":"5521"},
+            {"rcaType":"接入高时延","aaaClass":"66.28%","aaClass":"16.62%","aClass":"6.02%","totalClass":"88.91%","total":"4700"},
+            {"rcaType":"VOLTE同频切换差","aaaClass":"43.83%","aaClass":"24.36%","aClass":"8.85%","totalClass":"77.05%","total":"4679"},
+            {"rcaType":"VOLTE感知差","aaaClass":"39.69%","aaClass":"25.31%","aClass":"12.88%","totalClass":"77.88%","total":"3734"},
+            {"rcaType":"下行质差低速率","aaaClass":"78.67%","aaClass":"13.63%","aClass":"2.92%","totalClass":"95.22%","total":"3559"},
+            {"rcaType":"下行感知差","aaaClass":"71.72%","aaClass":"12.26%","aClass":"6.67%","totalClass":"90.64%","total":"3525"},
+            {"rcaType":"VOLTE承载效率低","aaaClass":"59.79%","aaClass":"16.27%","aClass":"8.65%","totalClass":"84.71%","total":"3166"},
+            {"rcaType":"高负荷","aaaClass":"85.7%","aaClass":"6.56%","aClass":"1.61%","totalClass":"93.88%","total":"2727"},
+            {"rcaType":"下行控制信道受限低速率","aaaClass":"86.45%","aaClass":"5.77%","aClass":"2.46%","totalClass":"94.68%","total":"1542"},
+            {"rcaType":"VOLTE异频切换差","aaaClass":"77.62%","aaClass":"8.39%","aClass":"5.17%","totalClass":"91.19%","total":"715"}
+        ]}}
+		var xData = [],aaaData = [],aaData = [],aData = [],totalData = [];
+		a.map.list.map(function(item){
+			xData.push(item["rcaType"]);
+			aaaData.push(item["aaaClass"].replace("%",""));
+			aaData.push(item["aaClass"].replace("%",""));
+			aData.push(item["aClass"].replace("%",""));
+			totalData.push(parseInt(item["total"]));
+		})
+		console.log(JSON.stringify(totalData));
+option = null;
+option = {
+    tooltip: {
+        trigger: 'axis',
+        //axisPointer: {
+        //    type: 'cross',
+        //    crossStyle: {
+        //        color: '#fff'
+        //    }
+        //}
+    },
+   
+    legend: {
+		data: ['AAA级', 'AA级', 'A级'],
+		bottom:1
+    },
+    xAxis: [
+        {
+            
+            data: xData,
+            axisPointer: {
+                type: 'shadow'
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            name: '水量',
+            min: 0,
+            max: 160,
+            interval: 20,
+            axisLabel: {
+                formatter: '{value} ml'
+            }
+        },
+        {
+            type: 'value',
+            name: '温度',
+            min: 0,
+            max: 8000,
+            interval: 1000,
+            axisLabel: {
+                formatter: '{value} °C'
+            }
+        }
+    ],
+    series: [
+		{
+            name: 'total',
+            type: 'line',
+            yAxisIndex: 1,
+			barWidth:60,
+            data: totalData
+        },
+        {
+            name: 'A级',
+            type: 'bar',
+			stack: '广告',
+			barWidth:60,
+            data: aData
+        },
+        {
+            name: 'AA级',
+            type: 'bar',
+			stack: '广告',
+			barWidth:60,
+            data: aaData
+        },
+		{
+            name: 'AAA级',
+            type: 'bar',
+			stack: '广告',
+			barWidth:60,
+            data: aaaData
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

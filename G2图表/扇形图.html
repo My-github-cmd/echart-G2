@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>基础饼图</title>
+          </head>
+          <body>
+            <div id="container" />
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.11/dist/g2.min.js"></script>
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.2/dist/data-set.min.js"></script>
+            <script>
+			
+			
+			var arr = {"code":0,"message":"","waitingId":"rcaPieContent","map":{"list":[
+			{"item":"网络结构类","itemCount":null,"itemTotal":753,"itemPercentage":"39.82%"},
+			{"item":"覆盖类问题","itemCount":null,"itemTotal":751,"itemPercentage":"39.71%"},
+			{"item":"无线质量类","itemCount":null,"itemTotal":608,"itemPercentage":"32.15%"},
+			{"item":"上行受限类","itemCount":null,"itemTotal":156,"itemPercentage":"8.25%"},
+			{"item":"容量问题类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"},
+			{"item":"小区故障类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"}]}};
+			
+				
+			draw(arr);  
+			function draw(arr){
+				var newArr = arr.map.list;
+				console.log(newArr);
+				const data = [];
+				newArr.forEach(function(item){
+						console.log(item);
+						data.push({item:item.item,percent:parseFloat(item.itemPercentage.replace("%",""))})
+				})
+				const chart = new G2.Chart({
+					container: 'container',
+					forceFit: true,
+					height: 500
+				});
+				chart.source(data, {
+				percent: {
+					formatter: val => {
+					val = (val * 1) + '%';
+					return val;
+					}
+				}
+				});
+				chart.coord('theta', {
+				radius: 0.75
+				});
+				chart.tooltip({
+				showTitle: false,
+				itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+				});
+				chart.intervalStack()
+				.position('percent')
+				.color('item')
+				.label('percent', {
+					formatter: (val, item) => {
+					return item.point.item + ': ' + val;
+					}
+				})
+				.tooltip('item*percent', (item, percent) => {
+					percent = percent * 1 + '%';
+					return {
+					name: item,
+					value: percent
+					};
+				})
+				.style({
+					lineWidth: 1,
+					stroke: '#fff'
+				});
+			chart.render();
+			}
+            </script>
+          </body>
+        </html>

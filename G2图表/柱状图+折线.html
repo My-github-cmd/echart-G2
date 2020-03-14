@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>堆叠柱状图</title>
+          </head>
+          <body>
+            <div id="container"/>
+            <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.0.1/dist/g2.min.js"></script>
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
+            <script>
+    //             const data = [
+    //   { name: 'London', 月份: 'Jan.', 月均降雨量: 18.9 },
+    //   { name: 'London', 月份: 'Feb.', 月均降雨量: 28.8 },
+    //   { name: 'London', 月份: 'Mar.', 月均降雨量: 39.3 },
+    //   { name: 'London', 月份: 'Apr.', 月均降雨量: 81.4 },
+    //   { name: 'London', 月份: 'May', 月均降雨量: 47 },
+    //   { name: 'London', 月份: 'Jun.', 月均降雨量: 20.3 },
+    //   { name: 'London', 月份: 'Jul.', 月均降雨量: 24 },
+    //   { name: 'London', 月份: 'Aug.', 月均降雨量: 35.6 },
+    //   { name: 'Berlin', 月份: 'Jan.', 月均降雨量: 12.4 },
+    //   { name: 'Berlin', 月份: 'Feb.', 月均降雨量: 23.2 },
+    //   { name: 'Berlin', 月份: 'Mar.', 月均降雨量: 34.5 },
+    //   { name: 'Berlin', 月份: 'Apr.', 月均降雨量: 99.7 },
+    //   { name: 'Berlin', 月份: 'May', 月均降雨量: 52.6 },
+    //   { name: 'Berlin', 月份: 'Jun.', 月均降雨量: 35.5 },
+    //   { name: 'Berlin', 月份: 'Jul.', 月均降雨量: 37.4 },
+    //   { name: 'Berlin', 月份: 'Aug.', 月均降雨量: 42.4 },
+    // ];
+
+
+    var a = {"code":0,"message":"","waitingId":"rcaProbContent","map":{"list":
+        [
+            {"rcaType":"下行高丢包","aaaClass":"52.37%","aaClass":"24.7%","aClass":"7.94%","totalClass":"85.01%","total":"7230"},
+            {"rcaType":"接通率低","aaaClass":"51.7%","aaClass":"22.39%","aClass":"11.08%","totalClass":"85.18%","total":"6342"},
+            {"rcaType":"下行编码效率低","aaaClass":"74.04%","aaClass":"14.98%","aClass":"4.2%","totalClass":"93.23%","total":"5521"},
+            {"rcaType":"接入高时延","aaaClass":"66.28%","aaClass":"16.62%","aClass":"6.02%","totalClass":"88.91%","total":"4700"},
+            {"rcaType":"VOLTE同频切换差","aaaClass":"43.83%","aaClass":"24.36%","aClass":"8.85%","totalClass":"77.05%","total":"4679"},
+            {"rcaType":"VOLTE感知差","aaaClass":"39.69%","aaClass":"25.31%","aClass":"12.88%","totalClass":"77.88%","total":"3734"},
+            {"rcaType":"下行质差低速率","aaaClass":"78.67%","aaClass":"13.63%","aClass":"2.92%","totalClass":"95.22%","total":"3559"},
+            {"rcaType":"下行感知差","aaaClass":"71.72%","aaClass":"12.26%","aClass":"6.67%","totalClass":"90.64%","total":"3525"},
+            {"rcaType":"VOLTE承载效率低","aaaClass":"59.79%","aaClass":"16.27%","aClass":"8.65%","totalClass":"84.71%","total":"3166"},
+            {"rcaType":"高负荷","aaaClass":"85.7%","aaClass":"6.56%","aClass":"1.61%","totalClass":"93.88%","total":"2727"},
+            {"rcaType":"下行控制信道受限低速率","aaaClass":"86.45%","aaClass":"5.77%","aClass":"2.46%","totalClass":"94.68%","total":"1542"},
+            {"rcaType":"VOLTE异频切换差","aaaClass":"77.62%","aaClass":"8.39%","aClass":"5.17%","totalClass":"91.19%","total":"715"}
+        ]}}
+        showG2(a);
+        function showG2(receiveData){
+            var arrDara = [],arrDara2 = [],collectArr = [];
+            receiveData.map.list.map(function(item){
+            var obj = {},obj2 = {};
+            Object.keys(item).filter(function(tar,index){
+            if(tar=='rcaType'||tar=="aaaClass"||tar=="aaClass"||tar=="aClass"||tar=="total") {
+                var val = "";
+                tar =="rcaType"?val="rcaType":"";
+                tar=="aaaClass"?val="AAA级":"";
+                tar=="aaClass"?val="AA级":"";
+                tar=="aClass"?val="A级":"";
+                tar=="total"?val="total":"";
+                obj[val]=item[tar];
+            }
+            if(tar=="total") obj2[tar]=parseInt(item[tar]);
+        })
+        arrDara.push(obj);
+        arrDara2.push(obj2);
+    })
+    
+    arrDara.map(function(item){
+        var obj3 = {};
+        for(var i in item){
+            collectArr.push( {rcaType:item["rcaType"],type:i,datas:item[i].replace("%",""),"数量":item["total"]});    
+        }
+    })
+    
+    const data = collectArr.filter(function(item){
+       if(item.type!="total") {
+           if(item.type!="rcaType") return item;
+       }
+    }).filter(function(sItem){
+        return sItem.datas = Number(sItem.datas);
+    }).reverse()
+    console.log(data);
+
+
+
+    const chart = new G2.Chart({
+      container: 'container',
+      autoFit: true,
+      height: 500,
+      padding:[20,50,100,50]
+    });
+    
+    chart.data(data);
+    
+    chart.scale('datas',{
+        nice: true,
+        min: 0,
+        type: 'quantize',
+        ticks: [0, 20, 40, 50, 55, 60,70, 80, 100],
+        formatter(value) {
+            return value + '%';
+        }
+    });
+    chart.scale('数量',{
+        nice: true,
+        min: 0,
+        type: 'quantize',
+        ticks: [0, 1000, 2000, 3000, 4000, 5000,6000, 7000, 8000],   //设置Y轴范围
+    });
+
+    chart.axis('rcaType', {
+        tickLine: null,
+        label: {  //设置X轴文本颜色
+            style: {
+            fill: '#000',
+            },
+        },
+        title:null   //设置x轴标题
+    })
+    chart.tooltip({
+        shared: true,
+        showMarkers: false,   //防止出现多个圆点
+    });
+	
+	chart.line().position('rcaType*数量')    //添加线条
+   
+    chart.interval().position('rcaType*datas')   //柱状图显示
+    .color('type',["#e9a573","#f1627a","#fad336"])
+    .adjust('stack');
+	chart.point().position('rcaType*数量');  //给线条绘制圆点
+    
+
+
+    chart.interaction('active-region');
+
+    chart.render();
+    }
+            </script>
+          </body>
+        </html>

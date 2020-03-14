@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="./echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="container" style="width: 100%;height:450px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('container'));
+		 var a = {"code":0,"message":"","waitingId":"rcaProbContent","map":{"list":
+        [
+            {"rcaType":"下行高丢包","aaaClass":"52.37%","aaClass":"24.7%","aClass":"7.94%","totalClass":"85.01%","total":"7230"},
+            {"rcaType":"接通率低","aaaClass":"51.7%","aaClass":"22.39%","aClass":"11.08%","totalClass":"85.18%","total":"6342"},
+            {"rcaType":"下行编码效率低","aaaClass":"74.04%","aaClass":"14.98%","aClass":"4.2%","totalClass":"93.23%","total":"5521"},
+            {"rcaType":"接入高时延","aaaClass":"66.28%","aaClass":"16.62%","aClass":"6.02%","totalClass":"88.91%","total":"4700"},
+            {"rcaType":"VOLTE同频切换差","aaaClass":"43.83%","aaClass":"24.36%","aClass":"8.85%","totalClass":"77.05%","total":"4679"},
+            {"rcaType":"VOLTE感知差","aaaClass":"39.69%","aaClass":"25.31%","aClass":"12.88%","totalClass":"77.88%","total":"3734"},
+            {"rcaType":"下行质差低速率","aaaClass":"78.67%","aaClass":"13.63%","aClass":"2.92%","totalClass":"95.22%","total":"3559"},
+            {"rcaType":"下行感知差","aaaClass":"71.72%","aaClass":"12.26%","aClass":"6.67%","totalClass":"90.64%","total":"3525"},
+            {"rcaType":"VOLTE承载效率低","aaaClass":"59.79%","aaClass":"16.27%","aClass":"8.65%","totalClass":"84.71%","total":"3166"},
+            {"rcaType":"高负荷","aaaClass":"85.7%","aaClass":"6.56%","aClass":"1.61%","totalClass":"93.88%","total":"2727"},
+            {"rcaType":"下行控制信道受限低速率","aaaClass":"86.45%","aaClass":"5.77%","aClass":"2.46%","totalClass":"94.68%","total":"1542"},
+            {"rcaType":"VOLTE异频切换差","aaaClass":"77.62%","aaClass":"8.39%","aClass":"5.17%","totalClass":"91.19%","total":"715"}
+        ]}}
+		var xData = [],aaaData = [],aaData = [],aData = [],totalData = [];
+		a.map.list.map(function(item){
+			xData.push(item["rcaType"]);
+			aaaData.push(item["aaaClass"].replace("%",""));
+			aaData.push(item["aaClass"].replace("%",""));
+			aData.push(item["aClass"].replace("%",""));
+			totalData.push(item["total"]);
+		})
+		console.log(xData,aaaData,aaData,aData,totalData)
+        // 指定图表的配置项和数据
+        var option = {
+		tooltip: {
+			trigger: 'axis',
+			//formatter: function(params){
+				//console.log(params);
+				//return "<li id='aa'>" + [params[0].name + "</li> " + "<li>" + params[0].seriesName + ":" + params[0].value + "%" + "</li> "+ params[1].seriesName + ":" + params[1].value + "%"];
+			//},
+			axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+				type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+			},
+		},
+		legend: {
+			data: ['AAA级', 'AA级', 'A级'],
+			bottom:10    //设置legend的位置，有top,left,right,bottom   
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '10%',
+			containLabel: true
+		},
+		xAxis: [
+			{
+				data: xData,
+				axisLabel:{
+					rotate:30,   //将坐标轴上面的字体倾斜，防止字体太长出现覆盖现象
+				}
+			}
+		],
+		yAxis: [
+			{
+				type: 'value',   //坐标轴类型
+				name: "百分比",
+				min:0,
+				max:100,
+				interval: 10,
+				axisLabel: {     // 操纵X轴上面的文本
+					formatter: '{value} %'
+				},
+				nameTextStyle:{
+                   color:'#fff'
+               }
+			},
+			{
+				type: 'value',
+				name: '表征小区数量',
+				min: 0,
+				max: 10000,
+				interval: 1000,
+				axisLabel: {   //操作坐标轴上面的文本
+					formatter: '{value} ',
+					color:'red'   //设置Y轴文本颜色
+				},
+				nameTextStyle:{   //设置坐标轴名称的颜色
+                   color:'#fff'
+               }
+			}
+		],
+		series: [
+			{	
+				name: 'total',
+				type: 'line',
+				yAxisIndex: 1,   //使用y轴的index，在单个图表实例中存在多个Y轴的时候有用
+				data: totalData
+			},
+			{
+				name: 'A级',
+				type: 'bar',
+				stack: '广告',
+				barWidth:60,
+				data: aaaData
+			},
+			{
+				name: 'AA级',
+				type: 'bar',
+				stack: '广告',
+				barWidth:60,
+				data: aaData
+			},
+			{
+				name: 'AAA级',
+				type: 'bar',
+				stack: '广告',   //数据堆叠,将stack值相同的数据显示在一条柱条上
+				barWidth:60,     //柱条宽度
+				data: aData
+			},
+			
+		]
+	};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

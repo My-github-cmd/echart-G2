@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>基础条形图</title>
+          </head>
+          <body>
+            <div id="container" />
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.11/dist/g2.min.js"></script>
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.2/dist/data-set.min.js"></script>
+            <script>
+			
+			var arr = {"code":0,"message":"","waitingId":"rcaPieContent","map":{"list":[
+			{"item":"网络结构类","itemCount":null,"itemTotal":753,"itemPercentage":"39.82%"},
+			{"item":"覆盖类问题","itemCount":null,"itemTotal":751,"itemPercentage":"39.71%"},
+			{"item":"无线质量类","itemCount":null,"itemTotal":608,"itemPercentage":"32.15%"},
+			{"item":"上行受限类","itemCount":null,"itemTotal":156,"itemPercentage":"8.25%"},
+			{"item":"容量问题类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"},
+			{"item":"小区故障类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"}]}};
+			
+			
+		
+			
+			
+			draw(arr);
+			function draw(arr){
+			
+				var newArr = arr.map.list;
+				console.log(newArr);
+				const data1 = [];
+				newArr.forEach(function(item){
+						console.log(item);
+						data1.push({country:item.item,population:parseFloat(item.itemPercentage.replace("%",""))})
+				})
+				const data = data1.reverse();
+			const chart = new G2.Chart({
+			  container: 'container',
+			  forceFit: true,
+			  height: 500
+			});
+			chart.source(data);
+			chart.axis('country', {
+			  label: {
+				offset: 12
+			  }
+			});
+			chart.coord().transpose();
+			chart.interval().position('country*population');
+			chart.render();
+			}
+			
+			
+            // 注意由于分类轴的顺序是从下往上的，所以数组的数值顺序要从小到大
+			
+            </script>
+          </body>
+        </html>
+		
+		
+		
+		
+		

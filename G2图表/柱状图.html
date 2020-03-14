@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>分组柱状图</title>
+          </head>
+          <body>
+            <div id="container" />
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.11/dist/g2.min.js"></script>
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.2/dist/data-set.min.js"></script>
+            <script>
+			
+			
+			var arr = {"code":0,"message":"","waitingId":"rcaPieContent","map":{"list":[
+			{"item":"网络结构类","itemCount":null,"itemTotal":753,"itemPercentage":"39.82%"},
+			{"item":"覆盖类问题","itemCount":null,"itemTotal":751,"itemPercentage":"39.71%"},
+			{"item":"无线质量类","itemCount":null,"itemTotal":608,"itemPercentage":"32.15%"},
+			{"item":"上行受限类","itemCount":null,"itemTotal":156,"itemPercentage":"8.25%"},
+			{"item":"容量问题类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"},
+			{"item":"小区故障类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"}]}};
+			
+			
+			var newArr = arr.map.list;
+				console.log(newArr);
+				const data1 = [];
+				newArr.forEach(function(item){
+						console.log(item);
+						data1.push({name: 'London',item:item.item,百分比:parseFloat(item.itemPercentage.replace("%",""))})
+				})
+			
+			
+			
+			
+            const data = [
+      { name: 'London', item: 'Jan.', 百分比: 18.9 },
+      { name: 'London', item: 'Feb.', 百分比: 28.8 },
+      { name: 'London', item: 'Mar.', 百分比: 39.3 },
+      { name: 'London', item: 'Apr.', 百分比: 81.4 },
+      { name: 'London', item: 'May', 百分比: 47 },
+      { name: 'London', item: 'Jun.', 百分比: 20.3 },
+      { name: 'London', item: 'Jul.', 百分比: 24 },
+      { name: 'London', item: 'Aug.', 百分比: 35.6 }
+    ];
+
+    const chart = new G2.Chart({
+      container: 'container',
+      forceFit: true,
+      height: 500
+    });
+    chart.source(data);
+    chart.interval().position('item*百分比').color('name')
+      .adjust([{
+        type: 'dodge',
+        marginRatio: 1 / 12
+      }]);
+    chart.render();
+            </script>
+          </body>
+        </html>

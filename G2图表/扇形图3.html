@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>基础饼图</title>
+          </head>
+          <body>
+            <div id="container"/>
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.11/dist/g2.min.js"></script>
+            <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.2/dist/data-set.min.js"></script>
+            <script>
+			
+			
+			// var arr = {"code":0,"message":"","waitingId":"rcaPieContent","map":{"list":[
+			// {"item":"网络结构类","itemCount":null,"itemTotal":753,"itemPercentage":"39.82%"},
+			// {"item":"覆盖类问题","itemCount":null,"itemTotal":751,"itemPercentage":"39.71%"},
+			// {"item":"无线质量类","itemCount":null,"itemTotal":608,"itemPercentage":"32.15%"},
+			// {"item":"上行受限类","itemCount":null,"itemTotal":156,"itemPercentage":"8.25%"},
+			// {"item":"容量问题类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"},
+            // {"item":"小区故障类","itemCount":null,"itemTotal":0,"itemPercentage":"0.00%"}]}};
+            
+
+
+            const arr = [
+                    {"date":"2020-02-14","city":"东营","networktype":"全部","scene":"全部","rcaType0":"92.04%","rcaType1":"0.54%","rcaType2":"0.35%","rcaType3":"0.49%","rcaType4":"0.84%","rcaType5":"0.26%","rcaType6":"0.77%","rcaType7":"0.22%","rcaType8":"0.62%","rcaType9":"0.29%","rcaType10":"1.92%","rcaType11":"0.51%","rcaType12":null,"rcaType13":"1.15%"},
+                    {"date":"2020-02-14","city":"临沂","networktype":"全部","scene":"全部","rcaType0":"90.96%","rcaType1":"0.51%","rcaType2":"0.52%","rcaType3":"0.69%","rcaType4":"0.42%","rcaType5":"0.29%","rcaType6":"1.13%","rcaType7":"0.27%","rcaType8":"0.55%","rcaType9":"1.11%","rcaType10":"0.78%","rcaType11":"1.26%","rcaType12":null,"rcaType13":"1.50%"},
+                    {"date":"2020-02-14","city":"威海","networktype":"全部","scene":"全部","rcaType0":"90.54%","rcaType1":"0.78%","rcaType2":"0.36%","rcaType3":"0.99%","rcaType4":"0.47%","rcaType5":"0.25%","rcaType6":"0.95%","rcaType7":"0.07%","rcaType8":"0.68%","rcaType9":"0.58%","rcaType10":"1.57%","rcaType11":"1.45%","rcaType12":null,"rcaType13":"1.30%"},
+                    {"date":"2020-02-14","city":"德州","networktype":"全部","scene":"全部","rcaType0":"89.70%","rcaType1":"0.32%","rcaType2":"0.66%","rcaType3":"0.93%","rcaType4":"1.40%","rcaType5":"0.38%","rcaType6":"1.12%","rcaType7":"0.07%","rcaType8":"0.87%","rcaType9":"0.36%","rcaType10":"1.58%","rcaType11":"1.05%","rcaType12":null,"rcaType13":"1.56%"},
+                    {"date":"2020-02-14","city":"日照","networktype":"全部","scene":"全部","rcaType0":"90.98%","rcaType1":"0.52%","rcaType2":"0.26%","rcaType3":"1.22%","rcaType4":"0.73%","rcaType5":"0.47%","rcaType6":"1.09%","rcaType7":"0.19%","rcaType8":"0.21%","rcaType9":"0.70%","rcaType10":"0.75%","rcaType11":"1.27%","rcaType12":null,"rcaType13":"1.61%"},
+                    {"date":"2020-02-14","city":"枣庄","networktype":"全部","scene":"全部","rcaType0":"88.80%","rcaType1":"0.74%","rcaType2":"0.42%","rcaType3":"0.88%","rcaType4":"0.60%","rcaType5":"0.25%","rcaType6":"0.83%","rcaType7":"0.46%","rcaType8":"0.70%","rcaType9":"1.07%","rcaType10":"1.39%","rcaType11":"1.81%","rcaType12":null,"rcaType13":"2.07%"},
+                    {"date":"2020-02-14","city":"泰安","networktype":"全部","scene":"全部","rcaType0":"94.24%","rcaType1":"0.25%","rcaType2":"0.33%","rcaType3":"0.33%","rcaType4":"0.27%","rcaType5":"0.02%","rcaType6":"0.39%","rcaType7":"0.13%","rcaType8":"0.45%","rcaType9":"0.49%","rcaType10":"1.30%","rcaType11":"0.91%","rcaType12":null,"rcaType13":"0.90%"},
+                    {"date":"2020-02-14","city":"济南","networktype":"全部","scene":"全部","rcaType0":"93.63%","rcaType1":"0.46%","rcaType2":"0.24%","rcaType3":"0.71%","rcaType4":"0.30%","rcaType5":"0.14%","rcaType6":"0.56%","rcaType7":"0.02%","rcaType8":"0.50%","rcaType9":"0.70%","rcaType10":"0.67%","rcaType11":"1.22%","rcaType12":null,"rcaType13":"0.84%"},
+                    {"date":"2020-02-14","city":"济宁","networktype":"全部","scene":"全部","rcaType0":"92.55%","rcaType1":"0.43%","rcaType2":"0.34%","rcaType3":"0.55%","rcaType4":"0.45%","rcaType5":"0.22%","rcaType6":"0.87%","rcaType7":"0.06%","rcaType8":"0.64%","rcaType9":"0.59%","rcaType10":"0.95%","rcaType11":"1.44%","rcaType12":null,"rcaType13":"0.90%"},
+                    {"date":"2020-02-14","city":"淄博","networktype":"全部","scene":"全部","rcaType0":"90.87%","rcaType1":"0.59%","rcaType2":"0.23%","rcaType3":"1.10%","rcaType4":"0.36%","rcaType5":"0.09%","rcaType6":"1.32%","rcaType7":"0.51%","rcaType8":"0.79%","rcaType9":"0.68%","rcaType10":"0.60%","rcaType11":"1.41%","rcaType12":null,"rcaType13":"1.42%"}
+                ]
+                // {"city":"东营","rcaType1":"0.54%","rcaType2":"0.35%","rcaType3":"0.49%","rcaType4":"0.84%","rcaType5":"0.26%","rcaType6":"0.77%","rcaType7":"0.22%","rcaType8":"0.62%","rcaType9":"0.29%","rcaType10":"1.92%","rcaType11":"0.51%","rcaType13":"1.15%"}
+                var a ;
+        arr.map(function(item){
+            for(var i in item){
+                if(i=="date"||i=="networktype"||i=="scene" || i=="rcaType0") delete item[i];
+                if(item[i] == null) delete item[i];
+            }
+            
+            a = arr.map(function(o){
+                return {city:o.city,"接通率":o.rcaType1,"接入高时延":o.rcaType2,"高负荷":o.rcaType3,"下行编码效率低":o.rcaType4,"下行感知差":o.rcaType5,"下行质差低速率":o.rcaType6,"下行高丢包":o.rcaType7,"下行控制信道受限低速率":o.rcaType8,"VOLTE感知差":o.rcaType9,"VOLTE同频切换差":o.rcaType10,"VOLTE异频切换差":o.rcaType11,"VOLTE承载效率低":o.rcaType13};
+            })
+
+          
+        })
+        // console.log(arr);
+			for(var j = 0;j<arr.length;j++){
+                draw(a[j]);  
+            }
+				
+			// draw(arr);  
+			function draw(arr){
+				// var newArr = arr.map.list;
+				// console.log(newArr);
+				const data = [];
+				// arr.forEach(function(item){
+                        // console.log(item);
+                        for(var i in arr){
+                            if(i != "city"){
+                                data.push({item:i,percent:parseFloat(arr[i].replace("%",""))})
+                            }
+                            
+                        }
+						// data.push({item:item.city,percent:parseFloat(item.rcaType1.replace("%",""))})
+                // })
+                
+				const chart = new G2.Chart({
+					container: 'container',
+					forceFit: true,
+					height: 500
+				});
+				chart.source(data, {
+				percent: {
+					formatter: val => {
+					val = (val * 1) + '%';
+					return val;
+					}
+				}
+				});
+				chart.coord('theta', {
+				radius: 0.45
+				});
+				 chart.tooltip({
+				showTitle: false,
+				itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+				});
+				chart.intervalStack()
+				.position('percent')
+				.color('item')
+				.label('percent', {
+					formatter: (val, item) => {
+					return item.point.item + ': ' + val;
+					}
+				})
+				.tooltip('item*percent', (item, percent) => {
+					percent = percent * 1 + '%';
+					return {
+					name: item,
+					value: percent
+					};
+				})
+				.style({
+					lineWidth: 1,
+					stroke: '#fff'
+				});
+			chart.render();
+			}
+            </script>
+          </body>
+        </html>
